@@ -6,10 +6,8 @@
 
 import Foundation
 
-
 public class RequestBuilder {
     private init() {}
-    
     
     private static func headers(_ token: String) -> [String:String] {
         
