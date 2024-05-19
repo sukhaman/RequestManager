@@ -1,0 +1,36 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target x86_64-apple-ios15.0-macabi -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name RequestBuilder
+import Combine
+import Foundation
+@_exported import RequestBuilder
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum NetworkError : Swift.Error {
+  case statusCode
+  case custom(error: any Swift.Error)
+}
+@_hasMissingDesignatedInitializers public class RequestManager {
+  public static func fetchData<T>(from request: Foundation.URLRequest) -> Combine.AnyPublisher<T, any Swift.Error> where T : Swift.Decodable
+  public static func fetchNoResponseRequest(from request: Foundation.URLRequest) -> Combine.AnyPublisher<Swift.Void, any Swift.Error>
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class RequestBuilder {
+  public static func buildGetRequest(url: Foundation.URL, token: Swift.String) -> Foundation.URLRequest
+  public static func buildDeleteRequest(url: Foundation.URL, token: Swift.String) -> Foundation.URLRequest
+  public static func buildPostRequest<T>(url: Foundation.URL, anyRequest: T, requestMethod: Swift.String, token: Swift.String) -> Foundation.URLRequest where T : Swift.Encodable
+  public static func buildRequest<T>(url: Foundation.URL, anyRequest: T, requestMethod: Swift.String) -> Foundation.URLRequest where T : Swift.Encodable
+  public static func buildPostRequestWithoutBody(url: Foundation.URL, requestMethod: Swift.String, token: Swift.String) -> Foundation.URLRequest
+  public static func uploadRequest<T>(url: Foundation.URL, requestMethod: Swift.String, isDocument: Swift.Bool = true, document: T, documentData: Foundation.Data, backImageData: Foundation.Data? = nil, token: Swift.String, documentType: Swift.String = "signature", backDocumentType: Swift.String? = nil, endExtension: Swift.String = ".png", mimeType: Swift.String = "image/png", fileName: Swift.String = "") -> Foundation.URLRequest where T : Swift.Decodable, T : Swift.Encodable
+  public static func scanUploadRequest(url: Foundation.URL, token: Swift.String, requestMethod: Swift.String, frontImageData: Foundation.Data, backImageData: Foundation.Data, endExtension: Swift.String = ".png", mimeType: Swift.String = "image/png") -> Foundation.URLRequest
+  @objc deinit
+}
+extension Foundation.URLRequest {
+  public func curlCommand() -> Swift.String
+}
+extension Foundation.Data {
+  public mutating func append(_ string: Swift.String, encoding: Swift.String.Encoding = .utf8)
+}
