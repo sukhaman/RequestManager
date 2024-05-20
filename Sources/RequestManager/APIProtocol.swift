@@ -30,3 +30,12 @@ public enum RequestMethod : String {
     case patch   = "PATCH"
     case delete  = "DELETE"
 }
+
+public enum AppType: String {
+    
+    case FIManager
+    case KioskComplete
+    case Client
+    case KioskBasic
+    
+}
