@@ -1,0 +1,6 @@
+framework module RequestManager {
+  umbrella header "RequestManager.h"
+  export *
+
+  module * { export * }
+}
