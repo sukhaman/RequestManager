@@ -3,8 +3,9 @@
 //
 //  Created by Sukhaman on 5/18/24.
 //
-/*
+
 import Foundation
+import UIKit
 
 public class RequestBuilder {
     private init() {}
@@ -15,12 +16,14 @@ public class RequestBuilder {
         let headers: [String: String] = token.isEmpty ? [
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "device-type" : "ios"
+            "device-type" : "ios",
+            "device-id": UIDevice.current.identifierForVendor!.uuidString
         ] : [
             "Authorization": "Bearer \(token)",
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "device-type" : "ios"
+            "device-type" : "ios",
+            "device-id": UIDevice.current.identifierForVendor!.uuidString
         ]
         return headers
     }
@@ -61,7 +64,8 @@ public class RequestBuilder {
         request.allHTTPHeaderFields = [
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "device-type" : "ios"
+            "device-type" : "ios",
+            "device-id": UIDevice.current.identifierForVendor!.uuidString
         ]
         request.timeoutInterval = 30
         return request
@@ -134,7 +138,7 @@ public class RequestBuilder {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "accept")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
+        request.setValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: "device-id")
         var dataBody = Data()
         let miliiscond = Int64(Date().timeIntervalSince1970 * 1000)
         
@@ -157,7 +161,7 @@ public class RequestBuilder {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "accept")
          request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
+        request.setValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: "device-id")
         var dataBody = Data()
         let miliiscond = Int64(Date().timeIntervalSince1970 * 1000)
         
@@ -214,4 +218,4 @@ public extension Data {
     }
 }
 
-*/
+

@@ -15,7 +15,7 @@ let package = Package(
         // Add dependencies here
     ],
     targets: [
-        .binaryTarget(name: "RequestManager", path: "./Sources/RequestManager/RequestManager.xcframework")
+        .target(name: "RequestManager")
         ,
         .testTarget(
             name: "RequestManagerTests",
