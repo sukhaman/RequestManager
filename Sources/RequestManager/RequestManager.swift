@@ -6,7 +6,29 @@ import Combine
 public enum NetworkError: Error {
     case statusCode
     case custom(error: Error)
+    
 }
+
+extension NetworkError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .statusCode:
+            return NSLocalizedString("Request failed due to invalid status code.", comment: "")
+        case .custom(let error):
+            return error.localizedDescription
+        }
+    }
+
+    public var recoverySuggestion: String? {
+        switch self {
+        case .statusCode:
+            return NSLocalizedString("Please check the request and try again.", comment: "")
+        case .custom:
+            return NSLocalizedString("Please try again later.", comment: "")
+        }
+    }
+}
+
 public class RequestManager {
     private init() {}
     
@@ -53,6 +75,35 @@ public class RequestManager {
                 return ()
             }
             .eraseToAnyPublisher()
+    }
+
+      private func handleError(_ error: NetworkError) -> String? {
+        var message: String? = ""
+         let failureReason = error.localizedDescription
+            message?.append(failureReason)
+        if let recoverySuggestion = error.recoverySuggestion {
+            message?.append("\n\(recoverySuggestion)")
+        }
+        return message
+    }
+    
+   public func handleServerError(from failure: Error) -> String {
+        let error = failure as NSError
+        let userInfo = error.userInfo
+        
+        // Extract detail from userInfo
+        var message = userInfo["detail"] as? String
+        if message == nil, let array = userInfo["detail"] as? [String] {
+            message = array.first
+        }
+        
+        // Handle NetworkError
+        if let networkError = failure as? NetworkError {
+            message = handleError(networkError)
+        }
+        
+        // Fallback message
+        return message ?? "Unable to complete your request"
     }
     
 }
