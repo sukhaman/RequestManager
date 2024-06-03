@@ -77,34 +77,45 @@ public class RequestManager {
             .eraseToAnyPublisher()
     }
 
-      private static func handleError(_ error: NetworkError) -> String? {
-        var message: String? = ""
-         let failureReason = error.localizedDescription
-            message?.append(failureReason)
-        if let recoverySuggestion = error.recoverySuggestion {
-            message?.append("\n\(recoverySuggestion)")
-        }
-        return message
+public static func handleServerError(from failure: Error) -> String {
+    let error = failure as NSError
+    let userInfo = error.userInfo
+    
+    // Extract message from userInfo using possible keys
+    var message = extractMessage(from: userInfo, keys: ["detail", "non_field_errors"])
+    
+    // Handle NetworkError
+    if let networkError = failure as? NetworkError {
+        message = handleError(networkError)
     }
     
-   public static func handleServerError(from failure: Error) -> String {
-        let error = failure as NSError
-        let userInfo = error.userInfo
-        
-        // Extract detail from userInfo
-        var message = userInfo["detail"] as? String
-        if message == nil, let array = userInfo["detail"] as? [String] {
-            message = array.first
+    // Fallback message
+    return message ?? "Unable to complete your request"
+}
+
+private static func extractMessage(from userInfo: [String: Any], keys: [String]) -> String? {
+    for key in keys {
+        if let message = userInfo[key] as? String {
+            return message
+        } else if let array = userInfo[key] as? [String] {
+            return array.first
         }
-        
-        // Handle NetworkError
-        if let networkError = failure as? NetworkError {
-            message = handleError(networkError)
-        }
-        
-        // Fallback message
-        return message ?? "Unable to complete your request"
     }
+    return nil
+}
+
+private static func handleError(_ error: NetworkError) -> String {
+    var message = ""
+    let failureReason = error.localizedDescription
+    message.append(failureReason)
+    
+    if let recoverySuggestion = error.recoverySuggestion {
+        message.append("\n\(recoverySuggestion)")
+    }
+    
+    return message
+}
+
     
 }
 
