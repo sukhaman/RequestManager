@@ -77,7 +77,7 @@ public class RequestManager {
             .eraseToAnyPublisher()
     }
 
-      private func handleError(_ error: NetworkError) -> String? {
+      private static func handleError(_ error: NetworkError) -> String? {
         var message: String? = ""
          let failureReason = error.localizedDescription
             message?.append(failureReason)
