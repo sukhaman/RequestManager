@@ -87,7 +87,7 @@ public class RequestManager {
         return message
     }
     
-   public func handleServerError(from failure: Error) -> String {
+   public static func handleServerError(from failure: Error) -> String {
         let error = failure as NSError
         let userInfo = error.userInfo
         
