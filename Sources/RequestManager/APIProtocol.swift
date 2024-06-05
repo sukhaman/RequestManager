@@ -22,7 +22,7 @@ public class BaseAPI {
         guard let urlString = Bundle.main.infoDictionary?["SERVER_URL"] as? String,
               let url = URL(string: urlString) else {
             print("SERVER_URL not set in Info.plist")
-            return URL(string:"https://google.com/")
+            return URL(string:"https://google.com/")!
         }
         return url
     }()
@@ -35,7 +35,7 @@ public class BaseAPI {
         guard let urlString = Bundle.main.infoDictionary?[key] as? String,
               let url = URL(string: urlString) else {
             print("URL for key \(key) not set in Info.plist")
-            return URL(string:"https://google.com/")
+            return URL(string:"https://google.com/")!
         }
         self.baseUrl = url
     }
