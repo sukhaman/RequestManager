@@ -8,6 +8,13 @@ import Foundation
 public protocol APIProtocol {
     var baseUrl: URL { get }
     var endpoint: String { get }
+    var url: URL { get }
+}
+
+extension APIProtocol {
+    public var url: URL {
+        return baseUrl.appendingPathComponent(endpoint)
+    }
 }
 
 public class BaseAPI {
