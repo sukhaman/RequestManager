@@ -31,29 +31,11 @@ public class BaseAPI {
         self.baseUrl = url
     }
 }
-public extension APIProtocol {
-    private static var _baseUrl: URL?
-
-    static var baseUrl: URL {
-        return _baseUrl ?? URL(string: Bundle.main.infoDictionary?["SERVER_URL"] as! String)!
-    }
-
-    init(baseUrl: URL) {
-        Self._baseUrl = baseUrl
-    }
-
-    init(infoPlistKey: String) {
-        guard let urlString = Bundle.main.infoDictionary?[infoPlistKey] as? String,
-              let url = URL(string: urlString) else {
-            fatalError("Invalid URL for key \(infoPlistKey) in Info.plist")
-        }
-        Self._baseUrl = url
-    }
-}
 
 extension RawRepresentable where RawValue == String, Self: APIProtocol {
-   public var url: URL { Self.baseUrl.appendingPathComponent(rawValue)}
+   public var url: URL { baseUrl.appendingPathComponent(rawValue)}
 }
+
 
 public extension URL {
     func appending(_ queryItem: String, value: String?) -> URL {
