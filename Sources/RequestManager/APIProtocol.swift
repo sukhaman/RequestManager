@@ -6,8 +6,8 @@
 import Foundation
 
 public protocol APIProtocol {
-    var baseUrl: URL { get }
-    var endpoint: String { get }
+    private var baseUrl: URL { get }
+    private var endpoint: String { get }
     var url: URL { get }
 }
 
