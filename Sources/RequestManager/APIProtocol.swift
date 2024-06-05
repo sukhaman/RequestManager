@@ -11,7 +11,7 @@ public protocol APIProtocol {
 }
 
 public class BaseAPI {
-    static var baseUrl: URL = {
+    public static var baseUrl: URL = {
         guard let urlString = Bundle.main.infoDictionary?["SERVER_URL"] as? String,
               let url = URL(string: urlString) else {
             fatalError("SERVER_URL not set in Info.plist")
