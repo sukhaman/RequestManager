@@ -6,10 +6,31 @@
 import Foundation
 
 public protocol APIProtocol {
-    static var baseUrl: URL {get}
-    init(baseUrl: URL)
+    var baseUrl: URL { get }
+    var endpoint: String { get }
 }
 
+public class BaseAPI {
+    static var baseUrl: URL = {
+        guard let urlString = Bundle.main.infoDictionary?["SERVER_URL"] as? String,
+              let url = URL(string: urlString) else {
+            fatalError("SERVER_URL not set in Info.plist")
+        }
+        return url
+    }()
+
+    public class func setBaseUrl(_ url: URL) {
+        self.baseUrl = url
+    }
+
+    public class func setBaseUrl(fromKey key: String) {
+        guard let urlString = Bundle.main.infoDictionary?[key] as? String,
+              let url = URL(string: urlString) else {
+            fatalError("URL for key \(key) not set in Info.plist")
+        }
+        self.baseUrl = url
+    }
+}
 public extension APIProtocol {
     private static var _baseUrl: URL?
 
